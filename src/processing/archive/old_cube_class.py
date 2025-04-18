@@ -1727,7 +1727,7 @@ class cube_class:
         '''Median space filter with moving window of given size. Velocity magnitude is filtered and vx-vy are restored.
             example of use:
             cube.filter_space() '''
-        from cube_processing import filter_space
+        from src.processing.archive.cube_processing import filter_space
         filter_space(self, space_window)
 
     def filter_time_stat(self, vvar, threshold=1, replace=True, extended_out=False): #{{{
@@ -1749,7 +1749,7 @@ class cube_class:
         vxf, vyf, medvx, medvy, stdvx, stdvy =  cube.filter_time_stat(0.4, replace = False, extended_out = True)
         '''
 
-        from cube_processing import filter_time_stat
+        from src.processing.archive.cube_processing import filter_time_stat
         if replace:
             filter_time_stat(self, vvar, threshold, replace, extended_out)
         else:
@@ -1771,7 +1771,7 @@ class cube_class:
         example of use:
         cube.filter_time_RollM()
         '''
-        from cube_processing import filter_time_RollM
+        from src.processing.archive.cube_processing import filter_time_RollM
         filter_time_RollM(self, RollWindow, RollWindowA, RollMinN, window, verbose)
 
     def filter_time_lowess(self, lowess_window=20, save2cube='', drop_duplicates=True, mode='replace_orig', verbose=False): #{{{
@@ -1787,7 +1787,7 @@ class cube_class:
         vx_f, vy_f  =  cube.filter_time_lowess()
         '''
 
-        from cube_processing import filter_time_lowess
+        from src.processing.archive.cube_processing import filter_time_lowess
         if save2cube != '':
             c_lws = filter_time_lowess(self, lowess_window, save2cube, drop_duplicates, mode, verbose)
             return c_lws
@@ -1815,7 +1815,7 @@ class cube_class:
             vx_f, vy_f = c.filter_time_spline('W', 0.05, save2cube='', verbose=True)
         '''
 
-        from cube_processing import filter_time_spline
+        from src.processing.archive.cube_processing import filter_time_spline
         if save2cube != '':
             c_spl = filter_time_spline(self, dates_out, smooth, save2cube, verbose, i, j)
             return c_spl
@@ -1833,7 +1833,7 @@ class cube_class:
                standard deviation maps: stdxo0 stdyo0
                err maps : errxo erryo
                count map : nno0 '''
-        from cube_processing import cube2vel
+        from src.processing.archive.cube_processing import cube2vel
         status, vxo, vyo, stdxo, stdyo, nno, medxo, medyo, stdxo0, stdyo0, errxo, erryo, nno0 = \
             cube2vel(self, plot_preview)
         return status, vxo, vyo, stdxo, stdyo, nno, medxo, medyo, stdxo0, stdyo0, errxo, erryo, nno0 #}}}
@@ -1855,7 +1855,7 @@ class cube_class:
                err maps : errxo erryo
                count map : nno0
         '''
-        from cube_processing import cube2vel_py
+        from src.processing.archive.cube_processing import cube2vel_py
         if save2cube != '':
             c2 = cube2vel_py(self, time_filter, plot_preview, save2cube,  verbose)
             return c2
@@ -1879,7 +1879,7 @@ class cube_class:
         c_week = c.time_regularisation(['01-01-2015', '31-12-2019'], 'SM', func='mean')
         '''
 
-        from cube_processing import time_regularisation
+        from src.processing.archive.cube_processing import time_regularisation
         c_m = time_regularisation(self, time_interval, time_step, func, weighted, verbose) #}}}
         return c_m
 
@@ -1905,7 +1905,7 @@ class cube_class:
         c_AvY = c.average_year('SM', func='std', verbose=True)
         '''
 
-        from cube_processing import average_year
+        from src.processing.archive.cube_processing import average_year
         c_a = average_year(self, time_step, time_interval, func, weighted, verbose) #}}}
         return c_a
 

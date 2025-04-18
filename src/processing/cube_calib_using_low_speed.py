@@ -1,5 +1,4 @@
 import numpy as np
-from progress_bar import progress_bar
 
 def cube_calib_using_low_speed(self,inplace=False):
 
@@ -9,12 +8,12 @@ def cube_calib_using_low_speed(self,inplace=False):
     v_med = np.sqrt(vx_med**2+vy_med**2)
 
     if inplace:
-        c2 = self
+        cube = self
     else:
-        c2 = self.deepcopy()
+        cube = self.deepcopy()
 
-    for i, d in enumerate(c2.data):
-        progress_bar(i/c2.nz*100.)
+    for i, d in enumerate(cube.data):
+
         if d.vx[v_med<100].count() > 100:
             difx = np.ma.median(d.vx[v_med<100]-vx_med[v_med<100])
             if difx > 10:
@@ -41,4 +40,4 @@ def cube_calib_using_low_speed(self,inplace=False):
             #    if dify > 250:
             #        d.vy = d.vy - dify
 
-    return c2
+    return cube

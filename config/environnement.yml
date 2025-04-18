@@ -1,0 +1,21 @@
+name: cubes_py313
+channels:
+  - conda-forge
+  - anaconda
+dependencies:
+  - python=3.13
+  - logging
+  - ipython
+  - numpy
+  - scipy
+  - gdal
+  - matplotlib
+  - netCDF4
+  - jdcal
+  - statsmodels
+  - psycopg2
+  - pymysql
+  - pyproj
+  - meson
+  - xarray
+  - requests

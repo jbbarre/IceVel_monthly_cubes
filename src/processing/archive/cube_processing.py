@@ -1,4 +1,4 @@
-from cube_class import cube_class
+from src.processing.archive.cube_class import cube_class
 import numpy as np
 #from numba import jit # numba 0.44 MINIMUM !
 import time
