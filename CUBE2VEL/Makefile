@@ -1,0 +1,24 @@
+
+all: tre
+
+one:
+	rm *.o *.so
+
+two:
+	gcc -shared -fPIC -O3 -c cube2vel_wrap.c
+	gfortran -shared -fPIC -O3 -c cube2vel.f90
+	gfortran -shared -fPIC -O3 -c SORT.f
+	gfortran -shared -fPIC -O3 -c MEDIAN.f
+	gcc -shared -lgfortran -O3 -o cube2vel.so cube2vel.o cube2vel_wrap.o SORT.o MEDIAN.o
+
+tow:
+	gcc -shared -fPIC -O3 -c cube2vel_sp_wrap.c
+	gfortran -shared -O3 -fPIC -c cube2vel_sp.f90
+#	gfortran -shared -fPIC -O3 -c SORT.f
+#	gfortran -shared -fPIC -O3 -c MEDIAN.f
+	gcc -shared -lgfortran -O3 -o cube2vel_sp.so cube2vel_sp.o cube2vel_sp_wrap.o
+
+tre :
+	gcc -shared -fPIC -O3 -c cube2vel_feather_sp_wrap.c
+	gfortran -shared -O3 -fPIC -c cube2vel_feather_sp.f90
+	gcc -shared -lgfortran -O3 -o cube2vel_feather_sp.so cube2vel_feather_sp.o cube2vel_feather_sp_wrap.o

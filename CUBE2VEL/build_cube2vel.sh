@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e  # exit on error
+
+one() {
+    echo "Cleaning build files..."
+    rm -f *.o *.so
+}
+
+dos() {
+    echo "Compiling with ifort multi version..."
+    export PATH=/home/nix/store/nv0xxz5g9nayhwlnqzi8ax7fv103qyd7-intel-compilers-2018u4/compilers_and_libraries_2018.5.274/linux/bin/intel64:$PATH
+    f2py --fcompiler=intelem --compiler=intelem --opt='-O3 -axAVX,SSE4.2' \
+         --f90flags='-fPIC' -c cube2vel_feather_multi_f2py.F90 -m cube2vel_multi_ifort
+}
+
+fou() {
+    echo "Compiling single-precision modules..."
+    export PATH=/home/barrejb-ext/.nix-profile/bin:$PATH
+
+    f2py --fcompiler=intelem --compiler=intelem --opt='-O2 -axAVX,SSE4.2' \
+         --f90flags='-fPIC' -c cube2vel_feather_sp_f2py.F90 -m cube2vel_ifort
+
+    f2py --fcompiler=intelem --compiler=intelem --opt='-O2 -axAVX,SSE4.2' \
+         --f90flags='-fPIC' -c cube2vel_feather_sp2_f2py.F90 -m cube2vel_sp2_ifort
+
+    # Debug options (uncomment if needed)
+    # f2py --debug-capi --fcompiler=intelem --compiler=intelem \
+    #      --opt='-g -traceback -check bounds -O3 -axAVX,SSE4.2' \
+    #      --f90flags='-fPIC -g -traceback -check bounds' -c cube2vel_feather_sp_f2py.F90 -m cube2vel_ifort
+}
+
+tre() {
+    echo "Compiling with default gfortran (fallback)..."
+    f2py --f90flags='-O3 -fPIC' -c cube2vel_feather_sp_f2py.F90 -m cube2vel
+}
+
+# Dispatch
+case "$1" in
+    one) one ;;
+    dos) dos ;;
+    fou) fou ;;
+    tre) tre ;;
+    *) echo "Usage: $0 {one|dos|fou|tre}" ;;
+esac
+
